@@ -1,5 +1,5 @@
 /* Alunos: Yago Jose Araujo dos Santos. Matricula: 14.2.4526 */
-/*            Jeferson PatrocÌnio.            MatrÌcula: */
+/*            Jeferson Patroc√≠nio.            Matr√≠cula: */
 
 /*__________________ Definindo os parametros __________________*/
 param a integer;                        #Quantidade de bombas;
@@ -14,4 +14,7 @@ set B:= 1..b;                           #Conjunto de todos os centros consumidor
 set T:= 1..t;                           #Conjunto de periodos;
 set F:= 1..f;                           #Conjunto de faixas de demanda;
 /*____________________ Variaveis de decisao ____________________*/
+var i{j in A, t in T} >= 0 integer;     #Volume de agua em (m^3) no tanque j no final do periodo t;
 var x{j in A, t in T} >= 0 binary;      #1 se a bomba j esta ligada no periodo t, 0 caso contrario;
+var a{j in A, t in T} >=0 binary;       #1 se a bomba j e acionada no per√≠odo t, 0 caso contrario;
+var z{j in A, l in A, t in T}; binary;  #1 se ha transferencia de agua do tanque j para l no periodo t, 0 caso contrario;
