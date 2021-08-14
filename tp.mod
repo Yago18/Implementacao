@@ -1,5 +1,5 @@
 /* Alunos: Yago Jose Araujo dos Santos. Matricula: 14.2.4526 */
-/*            Jeferson Patrocínio.            Matrícula: */
+/*         Jeferson Patrocínio.         Matrícula: */
 
 /*__________________ Definindo os parametros __________________*/
 param a integer;                        #Quantidade de bombas;
