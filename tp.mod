@@ -18,7 +18,7 @@ var i{j in A, t in T} >= 0 integer;     #Volume de agua em (m^3) no tanque j no 
 var x{j in A, t in T} >= 0 binary;      #1 se a bomba j esta ligada no periodo t, 0 caso contrario;
 var a{j in A, t in T} >=0 binary;       #1 se a bomba j e acionada no período t, 0 caso contrario;
 var z{j in A, l in A, t in T}; binary;  #1 se ha transferencia de agua do tanque j para l no periodo t, 0 caso contrario;
-var y{if i-1 in F <= i}; binary i>=1; #1 se o limite inferior for menor ou igual ao limite superior da faixa de demanda i, 0 caso contrario;
+if F[i-1] >= F[i] then y = 1 else y = 0 #1 se o limite inferior for menor ou igual ao limite superior da faixa de demanda i, 0 caso contrario;
 #Ainda falta uma variável de decisão
 /*____________________ Funcao objetivo ____________________*/
 minimize cost: 
