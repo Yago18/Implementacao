@@ -11,34 +11,22 @@ set F := 1..2;                        #Quantidade de faixas de demanda;
 param d {k in B, t in T};
 
 param c {j in R, t in T};
-set sc : 2 1 :=
-		2
-		2;
-set v : 2 1 :=
-		5
-		5;
-set w : 2 2 1 :=
-		1 1
-		2 2; #todo matriz tridimensional
-set hmax := 5 5;
-set hmin := 1 1;
-set h0 := 0 0;
-set S := 1 2;
-set R1 := 1 2;
-set P := 2 1;
-set yota : 2 2 1 :=
-		1 1
-		2 2; #todo matriz tridimensional
-set teta : 2 1 := 
-			0
-			5;
-set tgrego : 0;
-set dbarramenos := 1;
-set dbarra := 1 2;
-set vol : 2 2 :=
-		1 1
-		2 2;
-set beta:=1;
+set sc {j in R, t in T};
+set v {j in R, t in T};
+set w {j in R, l in R, t in T};
+param hmax := 5;
+param hmin := 1;
+param h0 := 0;
+param S := 1;
+param R1 := 1;
+param P := 2;
+set yota {j in R, l in R, t in T};
+set teta {j in R, t in T};
+param tgrego := 0;
+param dbarramenos := 1;
+param dbarra := 2;
+set vol {j in R, i in F};
+param beta:=1;
 
 
 /* __________________ Definindo os conjuntos ___________________*/
