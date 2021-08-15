@@ -2,32 +2,99 @@
 /*            Jeferson Patrocínio.            Matrícula: */
 
 /*__________________ Definindo os parametros __________________*/
-param a integer;                        #Quantidade de bombas;
-param r integer;                        #Quantidade de tanques;
-param b integer;                        #Quantidade de centros consumidores;
-param t integer;                        #Quantidade de periodos;
-param f integer;                        #Quantidade de faixas de demanda;
+/*param a integer;                        #Quantidade de bombas;*/
+set R := 1..2;                        #Quantidade de tanques;
+set B := 1..2;                        #Quantidade de centros consumidores;
+set T := 1..1;                        #Quantidade de periodos;
+set F := 1..2;                        #Quantidade de faixas de demanda;
 
-param u integer;                        #Demanda do centro consumidor;
-param v integer;                        #Vazao da bomba;
+param d {k in B, t in T};
+
+param c {j in R, t in T};
+set sc : 2 1 :=
+		2
+		2;
+set v : 2 1 :=
+		5
+		5;
+set w : 2 2 1 :=
+		1 1
+		2 2; #todo matriz tridimensional
+set hmax := 5 5;
+set hmin := 1 1;
+set h0 := 0 0;
+set S := 1 2;
+set R1 := 1 2;
+set P := 2 1;
+set yota : 2 2 1 :=
+		1 1
+		2 2; #todo matriz tridimensional
+set teta : 2 1 := 
+			0
+			5;
+set tgrego : 0;
+set dbarramenos := 1;
+set dbarra := 1 2;
+set vol : 2 2 :=
+		1 1
+		2 2;
+set beta:=1;
+
 
 /* __________________ Definindo os conjuntos ___________________*/
-set numBombas = r + r-1;                #Numero de bombas;
-set A:= 1..numBombas;                   #Conjunto de todas as bombas;
-set R:= 1..r;                           #Conjunto de todos os tanques
-set B:= 1..b;                           #Conjunto de todos os centros consumidores;
-set T:= 1..t;                           #Conjunto de periodos;
-set F:= 1..f;                           #Conjunto de faixas de demanda;
+/*set numBombas = R + R-1;                #Numero de bombas;*/
+set j:= 1..R;					#Conjunto de todas as tanques;
+set l:= 1..R;					#Conjunto de todas as tanques;
+set k:= 1..B;					 #Conjunto de todos os centros consumidores;
+set t:= 1..T;					#Conjunto de periodos;
+set i:= 1..F;					#Conjunto de faixas de demanda;
+
+
 
 /*____________________ Variaveis de decisao ____________________*/
-var i{j in A, t in T} >= 0 integer;     #Volume de agua em (m^3) no tanque j no final do periodo t;
-var x{j in A, t in T} >= 0 binary;      #1 se a bomba j esta ligada no periodo t, 0 caso contrario;
-var alpha{j in A, t in T} >=0 binary;   #1 se a bomba j e acionada no período t, 0 caso contrario;
-var z{j in A, l in A, t in T}; binary;  #1 se ha transferencia de agua do tanque j para l no periodo t, 0 caso contrario;
-if F[u-1] <= F[u] then y = 1 else y = 0 #1 se o limite inferior for menor ou igual ao limite superior da faixa de demanda i, 0 caso contrario;
+var I{j in R, t in T} >= 0 integer;     #Volume de agua em (m^3) no tanque j no final do periodo t;
+var x{j in R, t in T} >= 0 binary;      #1 se a bomba j esta ligada no periodo t, 0 caso contrario;
+var alpha{j in R, t in T} >=0 binary;   #1 se a bomba j e acionada no período t, 0 caso contrario;
+var z{j in R, l in R, t in T}; binary;  #1 se ha transferencia de agua do tanque j para l no periodo t, 0 caso contrario;
+var y{i in R, k in B, t in T}; binary; #se o limite inferior for menor ou igual ao limite superior da faixa de demanda i, 0 caso contrario;
+
+#if F[u-1] <= F[u] then y = 1 else y = 0 #1 se o limite inferior for menor ou igual ao limite superior da faixa de demanda i, 0 caso contrario;
 
 /*____________________ Funcao objetivo ____________________*/
-minimize cost: (sum{t in T} t=1, sum{j in R} j=1, c[j][t] * x[j][t] * alpha[j][t]) + (sum{t in T} t=1, sum{j in R} j=1, sum{l in R, j in R}, yota[j][l][t] * z[j][l][t])
+minimize cost: (sum{t in T}, sum{j in R}, c[j][t] * x[j][t] + sc[j][t] * alpha[j][t] + (sum{t in T}, sum{j in R}, sum{l in R[j]}, yota[j][l][t] * z[j][l][t]);
 
 /*______________________ Restricoes _____________________*/
-s.t. balanceamento: (1 - theta[j][t-1]) * i[j][t-1] + v[j][t]*x[j][t] + sum{j in R}(w[l][j][t] * z[l][j][t]), - (sum{l in R}w[j][l][t] * z[j][j][t]) - (sum{k in s[j]} d[k][j]);
+s.t. balanceamento: I[j][t]==(1-teta[j][t-1])*I[j][t-1]+v[j][t]*x[j][t]+ (sum{l in P[j]},w[l][j][t]*z[l][j][t])- (sum{l in R[j]},w[l][j][t]*z[l][j][t]) - (sum{k in S[j]}, d[k][t]), forall j in R,t in T; # verificar sintaxe do forall
+s.t. bombaj: alpha[j][t] => x[j][t] - x[j][t-1], forall j in R, t in T; #3
+s.t. volminmax: min(h[j]) <= i[j][t] <= max(h[j]) #4
+s.t. mentenligada: alpha[j][t] <= x[j][t] #completar #5
+s.t  alpha,z, y; binary
+
+data;
+param d :=
+		1 10 
+		2 20;
+set c : 2 1 :=
+		5
+		4;
+set sc : 2 1 :=
+		2
+		2;
+set v : 2 1 :=
+		5
+		5;
+set w : 2 2 1 :=
+		1 1
+		2 2; #todo matriz tridimensional
+set hmax := 5 5;
+set hmin := 1 1;
+set h0 := 0 0;
+set S := 1 2;
+set R1 := 1 2;
+set P := 2 1;
+set yota : 2 2 1 :=
+		1 1
+		2 2; #todo matriz tridimensional
+set teta : 2 1 := 
+			0
+			5;
