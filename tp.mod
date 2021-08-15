@@ -2,14 +2,15 @@
 /*            Jeferson Patrocínio.            Matrícula: */
 
 /*__________________ Definindo os parametros __________________*/
-/*param a integer;                        #Quantidade de bombas;*/
-set R := 1..2;                        #Quantidade de tanques;
-set B := 1..2;                        #Quantidade de centros consumidores;
-set T := 1..1;                        #Quantidade de periodos;
-set F := 1..2;                        #Quantidade de faixas de demanda;
+param n integer , <=2;
+/*param a integer;                                                      #Quantidade de bombas;*/
+param R integer, <=2;                        #Quantidade de tanques;
+param B integer, <=2;                        #Quantidade de centros consumidores;
+param T integer, <=1;                       #Quantidade de periodos;
+param F integer, <=2;                        #Quantidade de faixas de demanda;
 
-param d {k in B, t in T};
-
+/*
+set d {k in B, t in T};
 param c {j in R, t in T};
 set sc {j in R, t in T};
 set v {j in R, t in T};
@@ -27,15 +28,16 @@ param dbarramenos := 1;
 param dbarra := 2;
 set vol {j in R, i in F};
 param beta:=1;
+*/
 
 
 /* __________________ Definindo os conjuntos ___________________*/
 /*set numBombas = R + R-1;                #Numero de bombas;*/
-set j:= 1..R;					#Conjunto de todas as tanques;
-set l:= 1..R;					#Conjunto de todas as tanques;
-set k:= 1..B;					 #Conjunto de todos os centros consumidores;
-set t:= 1..T;					#Conjunto de periodos;
-set i:= 1..F;					#Conjunto de faixas de demanda;
+set j:= (1..R);					#Conjunto de todas as tanques;
+set l:= (1..R);					#Conjunto de todas as tanques;
+set k:= (1..B);					 #Conjunto de todos os centros consumidores;
+set t:= (1..T);					#Conjunto de periodos;
+set i:= (1..F);					#Conjunto de faixas de demanda;
 
 
 
