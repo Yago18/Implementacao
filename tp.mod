@@ -61,7 +61,7 @@ minimize cost: sum{t in T, j in R} ( c[j,t] * x[j,t] + sc[j,t] * alpha[j,t]) + (
 #s.t. balanceamento {j in R,t in T}: I[j,t]==(1-teta[j,t-1])*I[j,t-1]+v[j,t]*x[j,t]+ (sum{l in P},w[l,j,t]*z[l,j,t])- (sum{l in R[j]},w[l,j,t]*z[l,j,t]) - (sum{k in S}, d[k,t]); # verificar sintaxe do forall
 s.t. bombaj {j in R,t in T}: alpha[j,t] >= x[j,t] - x[j,t-1]; #3
 s.t. volminmax {j in R,t in T}: hmin[j] <= I[j,t] <= hmax[j];  #4
-s.t. mentenligada {j in R,t in T}: alpha[j,t] <= x[j,t]; #completar pois usa um t' n�o explicado #5
+s.t. mentenligada {j in R,t in T:t1 >=t and t1 <= t+tgrego }: alpha[j,t] <= x[j,t1]; #completar pois usa um t' n�o explicado #5
 
 
 data;
